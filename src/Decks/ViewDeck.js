@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useRouteMatch } from "react-router-dom";
 import {
   readDeck,
   deleteDeck,
@@ -9,6 +9,7 @@ import {
 
 export default function ViewDeck() {
   const history = useHistory();
+  const { deckId } = useRouteMatch();
   return (
     <div>
       <nav aria-label="breadcrumb">
@@ -45,7 +46,21 @@ export default function ViewDeck() {
         >
           Add Cards
         </button>
-        <button>Delete</button>
+        <button
+          type="button"
+          className="btn btn-danger"
+          onClick={() => {
+            const confirmDeleteDeck = window.confirm(
+              "Delete this deck? \n \n You will not be able to recover it."
+            );
+            if (confirmDeleteDeck) {
+              deleteDeck(deckId);
+              history.push("/");
+            }
+          }}
+        >
+          Delete
+        </button>
       </div>
       <div>
         <h4>Cards</h4>

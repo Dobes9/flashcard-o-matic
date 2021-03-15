@@ -33,10 +33,10 @@ export default function DecksList({ allDecks }) {
             type="button"
             className="btn btn-danger"
             onClick={() => {
-              const confirm = window.confirm(
+              const confirmDeleteDeck = window.confirm(
                 "Delete this deck? \n \n You will not be able to recover it."
               );
-              if (confirm) {
+              if (confirmDeleteDeck) {
                 deleteDeck(deck.id);
               }
             }}

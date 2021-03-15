@@ -1,5 +1,11 @@
 import React from "react";
 import { Link, useHistory } from "react-router-dom";
+import {
+  readDeck,
+  deleteDeck,
+  listCards,
+  deleteCard,
+} from "../utils/api/index";
 
 export default function ViewDeck() {
   const history = useHistory();

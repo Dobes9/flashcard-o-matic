@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 export default function DecksList({ allDecks }) {
   const history = useHistory();
 
-  return allDecks.map((deck) => {
+  const listOfDecks = allDecks.map((deck) => {
     return (
       <div className="card" key={deck.id}>
         <div className="card-body">
@@ -35,4 +35,17 @@ export default function DecksList({ allDecks }) {
       </div>
     );
   });
+
+  return (
+      <>
+        <button
+          type="button"
+          className="btn btn-secondary"
+          onClick={history.push("/decks/new")}
+        >
+          Create Deck
+        </button>
+        {listOfDecks}
+      </>
+  )
 }

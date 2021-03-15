@@ -1,5 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import deleteDeck from "../utils/api/index";
 
 export default function DecksList({ allDecks }) {
   const history = useHistory();
@@ -28,7 +29,18 @@ export default function DecksList({ allDecks }) {
           >
             Study
           </button>
-          <button type="button" className="btn btn-danger" onClick>
+          <button
+            type="button"
+            className="btn btn-danger"
+            onClick={() => {
+              const confirm = window.confirm(
+                "Delete this deck? \n \n You will not be able to recover it."
+              );
+              if (confirm) {
+                deleteDeck(deck.id);
+              }
+            }}
+          >
             Delete
           </button>
         </div>
@@ -37,15 +49,15 @@ export default function DecksList({ allDecks }) {
   });
 
   return (
-      <>
-        <button
-          type="button"
-          className="btn btn-secondary"
-          onClick={history.push("/decks/new")}
-        >
-          Create Deck
-        </button>
-        {listOfDecks}
-      </>
-  )
+    <>
+      <button
+        type="button"
+        className="btn btn-secondary"
+        onClick={history.push("/decks/new")}
+      >
+        Create Deck
+      </button>
+      {listOfDecks}
+    </>
+  );
 }

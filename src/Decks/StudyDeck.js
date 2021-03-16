@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useRouteMatch } from "react-router-dom";
 import { readDeck } from "../utils/api/index";
+import NotEnoughCards from "../Cards/NotEnoughCards";
 
 export default function StudyDeck() {
   const { deckId } = useRouteMatch();
@@ -14,6 +15,10 @@ export default function StudyDeck() {
 
     return () => abortController.abort();
   }, [deckId]);
+
+  if (selectedDeck.cards.length < 3) {
+    return <NotEnoughCards />;
+  }
 
   return (
     <div>

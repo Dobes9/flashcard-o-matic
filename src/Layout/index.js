@@ -21,20 +21,20 @@ function Layout() {
   }, []);
 
   return (
-    <>
+    <div>
       <Header />
       <div className="container">
         <Switch>
           <Route exact path="/">
             <DecksList allDecks={allDecks} />
           </Route>
-          <Route path="decks/new">
+          <Route path="/decks/new">
             <CreateDeck />
           </Route>
-          <Route path="decks/:deckId">
+          <Route path="/decks/:deckId">
             <ViewDeck />
           </Route>
-          <Route path="decks/:deckId/study">
+          <Route path="/decks/:deckId/study">
             <StudyDeck />
           </Route>
           <Route>
@@ -42,7 +42,7 @@ function Layout() {
           </Route>
         </Switch>
       </div>
-    </>
+    </div>
   );
 }
 

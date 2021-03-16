@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useHistory, useRouteMatch } from "react-router-dom";
 import {
   readDeck,
@@ -10,6 +10,18 @@ import {
 export default function ViewDeck() {
   const history = useHistory();
   const { deckId } = useRouteMatch();
+
+  const [selectedDeck, setSelectedDeck] = useState({});
+
+  useEffect(() => {
+    const abortController = new AbortController();
+    const signal = abortController.signal;
+
+    setSelectedDeck(readDeck(deckId, signal));
+
+    return () => abortController.abort;
+  }, [deckId]);
+
   return (
     <div>
       <nav aria-label="breadcrumb">
@@ -18,31 +30,31 @@ export default function ViewDeck() {
             <Link to="/">Home</Link>
           </li>
           <li className="breadcrumb-item active" aria-current="page">
-            Deck Name
+            {selectedDeck.name}
           </li>
         </ol>
       </nav>
       <div>
-        <h5>Deck Name</h5>
-        <p>Deck description</p>
+        <h5>{selectedDeck.name}</h5>
+        <p>{selectedDeck.description}</p>
         <button
           type="button"
           className="btn btn-secondary"
-          onClick={history.push("/decks/:deckId/edit")}
+          onClick={history.push(`/decks/${deckId}/edit`)}
         >
           Edit
         </button>
         <button
           type="button"
           className="btn btn-primary"
-          onClick={history.push("/decks/:deckId/study")}
+          onClick={history.push(`/decks/${deckId}/study`)}
         >
           Study
         </button>
         <button
           type="button"
           className="btn btn-primary"
-          onClick={history.push("/decks/:deckId/cards/new")}
+          onClick={history.push(`/decks/${deckId}/cards/new`)}
         >
           Add Cards
         </button>

@@ -24,7 +24,7 @@ export default function CreateDeck() {
     setFormData(...initialFormState);
     history.push("/decks/:deckId");
   };
-  
+
   return (
     <div>
       <nav aria-label="breadcrumb">
@@ -39,31 +39,33 @@ export default function CreateDeck() {
       </nav>
       <h2>Create Deck</h2>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="name">
-          Name
-          <input
-            id="name"
-            name="name"
-            type="text"
-            value={formData.name}
-            placeholder="Deck Name"
-            onChange={handleFormChange}
-          />
-        </label>
-        <label htmlFor="description">
-          Description
+        <div className="mb-3">
+          <label htmlFor="name">
+            Name
+            <input
+              id="name"
+              name="name"
+              type="text"
+              value={formData.name}
+              placeholder="Deck Name"
+              onChange={handleFormChange}
+            />
+          </label>
+        </div>
+        <div className="mb-3">
+          <label htmlFor="description">Description</label>
           <textarea
             id="description"
             name="description"
-            rows="5"
+            rows="3"
             value={formData.description}
             placeholder="Brief description of the deck"
             onChange={handleFormChange}
           />
-        </label>
+        </div>
         <button
           type="button"
-          className="btn btn-secondary"
+          className="btn btn-secondary mx-1"
           onClick={() => {
             setFormData({ ...initialFormState });
             history.push("/");
@@ -71,7 +73,7 @@ export default function CreateDeck() {
         >
           Cancel
         </button>
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn btn-primary mx-1">
           Submit
         </button>
       </form>

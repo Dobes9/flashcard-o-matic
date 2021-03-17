@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useRouteMatch, useHistory } from "react-router-dom";
 import { readDeck, listCards, deleteDeck } from "../utils/api/index";
+import CardsList from "../Cards/CardsList";
 
 export default function ViewDeck() {
   const history = useHistory();
@@ -69,7 +70,7 @@ export default function ViewDeck() {
         </button>
       </div>
       <h3>Cards</h3>
-      <p>placeholder for cards list</p>
+      <CardsList cardsInDeck={cardsInDeck} />
     </div>
   );
 }

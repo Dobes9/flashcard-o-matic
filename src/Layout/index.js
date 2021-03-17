@@ -7,6 +7,7 @@ import ViewDeck from "../Decks/ViewDeck";
 import StudyDeck from "../Decks/StudyDeck";
 import EditDeck from "../Decks/EditDeck";
 import AddCard from "../Cards/AddCard";
+import EditCard from "../Cards/EditCard";
 import { listDecks } from "../utils/api/index";
 import { Switch, Route } from "react-router-dom";
 
@@ -64,6 +65,9 @@ function Layout() {
               setSelectedDeck={setSelectedDeck}
               setCardsInDeck={setCardsInDeck}
             />
+          </Route>
+          <Route path="/decks/:deckId/cards/:cardId/edit">
+            <EditCard />
           </Route>
           <Route>
             <NotFound />

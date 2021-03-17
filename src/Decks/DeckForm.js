@@ -1,10 +1,9 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 
-export default function DeckForm() {
-  const [formData, setFormData] = useState({
-    name: "",
-    description: "",
-  });
+export default function DeckForm({ selectedDeck, handleSubmit }) {
+  const history = useHistory();
+  const [formData, setFormData] = useState({ ...selectedDeck });
 
   const handleFormChange = ({ target }) => {
     setFormData({
@@ -12,8 +11,6 @@ export default function DeckForm() {
       [target.name]: target.value,
     });
   };
-
-  // const handleSubmit = (event) => {}
 
   return (
     <form onSubmit>
@@ -30,6 +27,7 @@ export default function DeckForm() {
       </div>
       <div className="mb-3">
         <label htmlFor="description">
+          Description
           <textarea
             id="description"
             name="description"
@@ -38,6 +36,14 @@ export default function DeckForm() {
             placeholder="Brief description of the deck"
           />
         </label>
+      </div>
+      <div>
+        <button className="btn btn-secondary" onClick={() => history.push("/")}>
+          Cancel
+        </button>
+        <button className="btn btn-primary" type="submit">
+          Submit
+        </button>
       </div>
     </form>
   );

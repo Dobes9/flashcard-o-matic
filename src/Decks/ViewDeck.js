@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link, useRouteMatch, useHistory } from "react-router-dom";
 import { readDeck, listCards, deleteDeck } from "../utils/api/index";
 import CardsList from "../Cards/CardsList";
 
-export default function ViewDeck() {
+export default function ViewDeck({
+  selectedDeck,
+  setSelectedDeck,
+  cardsInDeck,
+  setCardsInDeck,
+}) {
   const history = useHistory();
   const { params } = useRouteMatch();
   const { deckId } = params;
-  const [selectedDeck, setSelectedDeck] = useState({});
-  const [cardsInDeck, setCardsInDeck] = useState([]);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -20,20 +23,25 @@ export default function ViewDeck() {
     return () => abortController.abort();
   }, [deckId]);
 
+  const currentDeck = selectedDeck;
+
   return (
     <div>
       <nav aria-label="breadcrumb">
         <ol className="breadcrumb">
-          <li className="breadcrumb-item">
+          <li className="breadcrumb-item" onClick={() => {
+              setSelectedDeck({});
+              setCardsInDeck([]);
+          }}>
             <Link to="/">Home</Link>
           </li>
           <li className="breadcrumb-item active" aria-current="page">
-            {selectedDeck.name}
+            {currentDeck.name}
           </li>
         </ol>
       </nav>
-      <h4>{selectedDeck.name}</h4>
-      <p>{selectedDeck.description}</p>
+      <h4>{currentDeck.name}</h4>
+      <p>{currentDeck.description}</p>
       <div>
         <button
           className="btn btn-secondary"

@@ -5,6 +5,8 @@ import { deleteDeck } from "../utils/api/index";
 export default function DecksList({ allDecks }) {
   const history = useHistory();
   const abortController = new AbortController();
+  const signal = abortController.signal;
+
   const listOfDecks = allDecks.map((deck) => {
     return (
       <div className="card" key={deck.id}>
@@ -16,13 +18,17 @@ export default function DecksList({ allDecks }) {
         <div>
           <button
             className="btn btn-secondary"
-            onClick={() => history.push(`/decks/${deck.id}`)}
+            onClick={() => {
+              history.push(`/decks/${deck.id}`);
+            }}
           >
             View
           </button>
           <button
             className="btn btn-primary"
-            onClick={() => history.push(`/decks/${deck.id}/study`)}
+            onClick={() => {
+              history.push(`/decks/${deck.id}/study`);
+            }}
           >
             Study
           </button>
@@ -34,7 +40,7 @@ export default function DecksList({ allDecks }) {
                 "Delete this deck? \n \nYou will not be able to recover it."
               );
               if (confirmDeleteDeck) {
-                deleteDeck(deck.id, abortController.signal);
+                deleteDeck(deck.id, signal);
               }
             }}
           >

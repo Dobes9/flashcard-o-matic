@@ -1,9 +1,18 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useRouteMatch } from "react-router-dom";
+import { createDeck, updateDeck } from "../utils/api/index";
 
-export default function DeckForm({ selectedDeck, handleSubmit }) {
+export default function DeckForm({ selectedDeck, handleCancel }) {
   const history = useHistory();
-  const [formData, setFormData] = useState({ ...selectedDeck });
+  const { path, params } = useRouteMatch();
+  const { deckId } = params;
+
+  const initialFormData = selectedDeck;
+
+  const [formData, setFormData] = useState({ ...initialFormData });
+
+  const abortController = new AbortController();
+  const signal = abortController.signal;
 
   const handleFormChange = ({ target }) => {
     setFormData({
@@ -13,7 +22,19 @@ export default function DeckForm({ selectedDeck, handleSubmit }) {
   };
 
   return (
-    <form onSubmit>
+    <form
+      onSubmit={() => {
+        if (path === "/decks/new") {
+          createDeck(formData, signal);
+          history.push("/");
+          setFormData({ ...initialFormData });
+        } else {
+          updateDeck(formData, signal);
+          history.push(`/decks/${deckId}`);
+          setFormData({ ...initialFormData });
+        }
+      }}
+    >
       <div className="mb-3">
         <label htmlFor="name">Name</label>
         <input
@@ -38,7 +59,13 @@ export default function DeckForm({ selectedDeck, handleSubmit }) {
         </label>
       </div>
       <div>
-        <button className="btn btn-secondary" onClick={() => history.push("/")}>
+        <button
+          className="btn btn-secondary"
+          onClick={() => {
+            handleCancel();
+            setFormData({ ...initialFormData });
+          }}
+        >
           Cancel
         </button>
         <button className="btn btn-primary" type="submit">

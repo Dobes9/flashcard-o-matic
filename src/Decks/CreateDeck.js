@@ -1,9 +1,13 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import DeckForm from "./DeckForm";
 
 export default function CreateDeck() {
-    //const handleSubmit = (event) => {}
+  const history = useHistory();
+
+  const handleCancel = () => {
+    history.push("/");
+  };
   return (
     <div>
       <nav aria-label="breadcrumb">
@@ -17,7 +21,10 @@ export default function CreateDeck() {
         </ol>
       </nav>
       <h2>Create Deck</h2>
-      <DeckForm selectedDeck={{ name: "", description: "" }} />
+      <DeckForm
+        selectedDeck={{ name: "", description: "" }}
+        handleCancel={handleCancel}
+      />
     </div>
   );
 }

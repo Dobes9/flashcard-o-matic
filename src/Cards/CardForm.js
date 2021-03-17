@@ -2,14 +2,11 @@ import React, { useState } from "react";
 import { useRouteMatch, useHistory } from "react-router-dom";
 import { createCard } from "../utils/api/index";
 
-export default function CardForm() {
+export default function CardForm({ selectedCard }) {
   const history = useHistory();
   const { path, params } = useRouteMatch();
   const { deckId } = params;
-  const initialFormData = {
-    front: "",
-    back: "",
-  };
+  const initialFormData = selectedCard;
 
   const [formData, setFormData] = useState({ ...initialFormData });
 

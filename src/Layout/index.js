@@ -59,7 +59,11 @@ function Layout() {
             />
           </Route>
           <Route path="/decks/:deckId/cards/new">
-            <AddCard />
+            <AddCard
+              selectedDeck={selectedDeck}
+              setSelectedDeck={setSelectedDeck}
+              setCardsInDeck={setCardsInDeck}
+            />
           </Route>
           <Route>
             <NotFound />

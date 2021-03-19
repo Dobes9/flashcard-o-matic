@@ -3,50 +3,45 @@ import { Link, useRouteMatch } from "react-router-dom";
 import CardForm from "./CardForm";
 import { readCard } from "../utils/api/index";
 
-export default function EditCard({
-  selectedDeck,
-  setSelectedDeck,
-  setCardsInDeck,
-  selectedCard,
-  setSelectedCard,
-}) {
+export default function EditCard({ settings, setSettings }) {
   const { params } = useRouteMatch();
   const { deckId, cardId } = params;
-  const currentDeck = selectedDeck;
-  const currentCard = selectedCard;
 
   useEffect(() => {
     const abortController = new AbortController();
     const signal = abortController.signal;
 
-    readCard(cardId, signal).then(setSelectedCard);
+    async function loadCard() {
+      const cardFromAPI = await readCard(cardId, signal);
+      setSettings({
+        ...settings,
+        selectedCard: cardFromAPI,
+      });
+    }
+    loadCard();
 
     return () => abortController.abort();
-  }, [cardId, setSelectedCard]);
+  }, [cardId]);
+
+  const {selectedDeck, selectedCard} = settings;
 
   return (
     <div>
       <nav aria-label="breadcrumb">
         <ol className="breadcrumb">
-          <li
-            className="breadcrumb-item"
-            onClick={() => {
-              setSelectedDeck({});
-              setCardsInDeck([]);
-            }}
-          >
+          <li className="breadcrumb-item">
             <Link to="/">Home</Link>
           </li>
-          <li className="breadcrumb-item" onClick={() => setSelectedCard({})}>
-            <Link to={`/decks/${deckId}`}>{currentDeck.name}</Link>
+          <li className="breadcrumb-item">
+            <Link to={`/decks/${deckId}`}>{selectedDeck.name}</Link>
           </li>
           <li className="breadcrumb-item active" aria-current="page">
-            Edit Card {currentCard.id}
+            Edit Card {selectedCard.id}
           </li>
         </ol>
       </nav>
       <h2>Edit Card</h2>
-      <CardForm setSelectedCard={setSelectedCard} />
+      <CardForm />
     </div>
   );
 }

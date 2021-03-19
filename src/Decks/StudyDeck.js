@@ -4,12 +4,7 @@ import { readDeck, listCards } from "../utils/api/index";
 import NotEnoughCards from "../Cards/NotEnoughCards";
 import StudySession from "../Cards/StudySession";
 
-export default function StudyDeck({
-  selectedDeck,
-  setSelectedDeck,
-  cardsInDeck,
-  setCardsInDeck,
-}) {
+export default function StudyDeck({ settings, setSettings }) {
   const { params } = useRouteMatch();
   const { deckId } = params;
 
@@ -17,23 +12,27 @@ export default function StudyDeck({
     const abortController = new AbortController();
     const signal = abortController.signal;
 
-    readDeck(deckId, signal).then(setSelectedDeck);
-    listCards(deckId, signal).then(setCardsInDeck);
+    async function loadDeck() {
+      const deckFromAPI = await readDeck(deckId, signal);
+      const cardsFromAPI = await listCards(deckId, signal);
+      setSettings({
+        ...settings,
+        selectedDeck: deckFromAPI,
+        cardsInDeck: cardsFromAPI,
+      });
+    }
+    loadDeck();
 
     return () => abortController.abort();
-  }, [deckId, setSelectedDeck, setCardsInDeck]);
+  }, [deckId]);
+
+  const { selectedDeck, cardsInDeck } = settings;
 
   return (
     <div>
       <nav aria-label="breadcrumb">
         <ol className="breadcrumb">
-          <li
-            className="breadcrumb-item"
-            onClick={() => {
-              setSelectedDeck({});
-              setCardsInDeck([]);
-            }}
-          >
+          <li className="breadcrumb-item">
             <Link to="/">Home</Link>
           </li>
           <li className="breadcrumb-item">

@@ -18,7 +18,7 @@ export default function AddCard({
     readDeck(deckId, signal).then(setSelectedDeck);
 
     return () => abortController.abort();
-  }, [deckId]);
+  }, [deckId, setSelectedDeck]);
 
   const currentDeck = selectedDeck;
 
@@ -44,7 +44,7 @@ export default function AddCard({
         </ol>
       </nav>
       <h3>{currentDeck.name}: Add Card</h3>
-      <CardForm selectedCard={{ front: "", back: "" }} />
+      <CardForm />
     </div>
   );
 }

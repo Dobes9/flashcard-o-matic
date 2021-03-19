@@ -21,15 +21,23 @@ export default function DeckForm({ selectedDeck, handleCancel }) {
     });
   };
 
+  const handleSubmit = async () => {
+    path === "/decks/new" ? (
+      await createDeck(formData, signal)
+    ) : (
+      await updateDeck(formData, signal)
+    );
+  };
+
   return (
     <form
       onSubmit={() => {
         if (path === "/decks/new") {
-          createDeck(formData, signal);
+          handleSubmit();
           history.push("/");
           setFormData({ ...initialFormData });
         } else {
-          updateDeck(formData, signal);
+          handleSubmit();
           history.push(`/decks/${deckId}`);
           setFormData({ ...initialFormData });
         }

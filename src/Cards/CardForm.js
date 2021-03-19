@@ -1,14 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouteMatch, useHistory } from "react-router-dom";
-import { createCard } from "../utils/api/index";
+import { createCard, updateCard, readCard } from "../utils/api/index";
 
-export default function CardForm({ selectedCard }) {
+export default function CardForm() {
   const history = useHistory();
   const { path, params } = useRouteMatch();
-  const { deckId } = params;
-  const initialFormData = selectedCard;
+  const { deckId, cardId } = params;
+  const initialFormData = {
+    front: "",
+    back: "",
+  };
 
-  const [formData, setFormData] = useState({ ...initialFormData });
+  const abortController = new AbortController();
+  const signal = abortController.signal;
+
+  const [formData, setFormData] = useState({});
+
+  useEffect(() => {
+    if (cardId) {
+      readCard(cardId, signal).then(setFormData);
+    } else {
+      setFormData({ ...initialFormData });
+    }
+    return () => abortController.abort();
+  }, [cardId]);
 
   const handleFormChange = ({ target }) => {
     setFormData({
@@ -21,9 +36,12 @@ export default function CardForm({ selectedCard }) {
     <form
       onSubmit={() => {
         if (path === `/decks/:deckId/cards/new`) {
-          const abortController = new AbortController();
-          createCard(deckId, formData, abortController.signal);
+          createCard(deckId, formData, signal);
           setFormData({ ...initialFormData });
+        } else {
+          updateCard(formData);
+          setFormData({ ...initialFormData });
+          history.push(`/decks/${deckId}`);
         }
       }}
     >
@@ -53,7 +71,10 @@ export default function CardForm({ selectedCard }) {
         <div>
           <button
             className="btn btn-secondary"
-            onClick={() => history.push(`/decks/${deckId}`)}
+            onClick={() => {
+              setFormData({ ...initialFormData });
+              history.push(`/decks/${deckId}`);
+            }}
           >
             Done
           </button>
@@ -63,7 +84,15 @@ export default function CardForm({ selectedCard }) {
         </div>
       ) : (
         <div>
-          <button className="btn btn-secondary">Cancel</button>
+          <button
+            className="btn btn-secondary"
+            onClick={() => {
+              setFormData({ ...initialFormData });
+              history.push(`/decks/${deckId}`);
+            }}
+          >
+            Cancel
+          </button>
           <button className="btn btn-primary" type="submit">
             Submit
           </button>

@@ -15,37 +15,41 @@ export default function DecksList({ allDecks }) {
           <p style={{ justifyContent: "right" }}>{deck.cards.length} cards</p>
         </div>
         <div className="card-body">{deck.description}</div>
-        <div>
-          <button
-            className="btn btn-secondary"
-            onClick={() => {
-              history.push(`/decks/${deck.id}`);
-            }}
-          >
-            View
-          </button>
-          <button
-            className="btn btn-primary"
-            onClick={() => {
-              history.push(`/decks/${deck.id}/study`);
-            }}
-          >
-            Study
-          </button>
-          <button
-            className="btn btn-danger"
-            style={{ justifyContent: "right" }}
-            onClick={() => {
-              const confirmDeleteDeck = window.confirm(
-                "Delete this deck? \n \nYou will not be able to recover it."
-              );
-              if (confirmDeleteDeck) {
-                deleteDeck(deck.id, signal);
-              }
-            }}
-          >
-            Delete
-          </button>
+        <div className="row">
+          <div className="col">
+            <button
+              className="btn btn-secondary"
+              onClick={() => {
+                history.push(`/decks/${deck.id}`);
+              }}
+            >
+              View
+            </button>
+            <button
+              className="btn btn-primary"
+              onClick={() => {
+                history.push(`/decks/${deck.id}/study`);
+              }}
+            >
+              Study
+            </button>
+          </div>
+          <div className="col">
+            <button
+              className="btn btn-danger"
+              style={{ justifyContent: "right" }}
+              onClick={() => {
+                const confirmDeleteDeck = window.confirm(
+                  "Delete this deck? \n \nYou will not be able to recover it."
+                );
+                if (confirmDeleteDeck) {
+                  deleteDeck(deck.id, signal);
+                }
+              }}
+            >
+              Delete
+            </button>
+          </div>
         </div>
       </div>
     );

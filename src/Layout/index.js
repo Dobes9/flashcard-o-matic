@@ -15,6 +15,7 @@ function Layout() {
   const [allDecks, setAllDecks] = useState([]);
   const [selectedDeck, setSelectedDeck] = useState({});
   const [cardsInDeck, setCardsInDeck] = useState([]);
+  const [selectedCard, setSelectedCard] = useState({});
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -67,7 +68,13 @@ function Layout() {
             />
           </Route>
           <Route path="/decks/:deckId/cards/:cardId/edit">
-            <EditCard />
+            <EditCard
+              selectedDeck={selectedDeck}
+              setSelectedDeck={setSelectedDeck}
+              setCardsInDeck={setCardsInDeck}
+              selectedCard={selectedCard}
+              setSelectedCard={setSelectedCard}
+            />
           </Route>
           <Route>
             <NotFound />

@@ -19,7 +19,7 @@ export default function EditDeck({
     readDeck(deckId, signal).then(setSelectedDeck);
 
     return () => abortController.abort();
-  }, [deckId]);
+  }, [deckId, setSelectedDeck]);
 
   const handleCancel = () => {
     history.push(`/decks/${deckId}`);

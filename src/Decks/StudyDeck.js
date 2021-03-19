@@ -20,7 +20,7 @@ export default function StudyDeck({
     listCards(deckId, signal).then(setCardsInDeck);
 
     return () => abortController.abort();
-  }, [deckId]);
+  }, [deckId, setSelectedDeck, setCardsInDeck]);
 
   const currentDeck = selectedDeck;
 

@@ -48,7 +48,7 @@ export default function StudyDeck({
       {cardsInDeck.length < 3 ? (
         <NotEnoughCards cardsInDeck={cardsInDeck} />
       ) : (
-        <StudySession />
+        <StudySession cardsInDeck={cardsInDeck} />
       )}
     </div>
   );

@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link, useRouteMatch, useHistory } from "react-router-dom";
 import DeckForm from "./DeckForm";
-import { readDeck } from "../utils/api/index";
 
 export default function EditDeck({ selectedDeck }) {
   const history = useHistory();

@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link, useRouteMatch } from "react-router-dom";
 import CardForm from "./CardForm";
-import { readDeck } from "../utils/api/index";
 
 export default function AddCard({ selectedDeck }) {
   const { params } = useRouteMatch();

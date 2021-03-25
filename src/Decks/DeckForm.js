@@ -76,7 +76,7 @@ export default function DeckForm({ selectedDeck, handleCancel }) {
         >
           Cancel
         </button>
-        <button className="btn btn-primary" type="submit">
+        <button className="btn btn-primary mx-2" type="submit">
           Submit
         </button>
       </div>

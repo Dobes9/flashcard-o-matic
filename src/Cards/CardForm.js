@@ -35,7 +35,7 @@ export default function CardForm() {
   return (
     <form
       onSubmit={() => {
-        if (path === `/decks/:deckId/cards/new`) {
+        if (path === `/decks/${deckId}/cards/new`) {
           createCard(deckId, formData, signal);
           setFormData({ ...initialFormData });
         } else {
@@ -78,7 +78,7 @@ export default function CardForm() {
           >
             Done
           </button>
-          <button className="btn btn-primary" type="submit">
+          <button className="btn btn-primary mx-2" type="submit">
             Save
           </button>
         </div>
@@ -93,7 +93,7 @@ export default function CardForm() {
           >
             Cancel
           </button>
-          <button className="btn btn-primary" type="submit">
+          <button className="btn btn-primary mx-2" type="submit">
             Submit
           </button>
         </div>

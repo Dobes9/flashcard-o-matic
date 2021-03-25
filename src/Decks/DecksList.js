@@ -12,13 +12,13 @@ export default function DecksList({ allDecks }) {
       <div className="card" key={deck.id}>
         <div className="card-title">
           <h4>{deck.name}</h4>
-          <p style={{ justifyContent: "right" }}>{deck.cards.length} cards</p>
+          <p className="float-right mx-3">{deck.cards.length} cards</p>
         </div>
         <div className="card-body">{deck.description}</div>
         <div className="row">
           <div className="col">
             <button
-              className="btn btn-secondary"
+              className="btn btn-secondary my-3 mx-1 ml-3"
               onClick={() => {
                 history.push(`/decks/${deck.id}`);
               }}
@@ -26,7 +26,7 @@ export default function DecksList({ allDecks }) {
               View
             </button>
             <button
-              className="btn btn-primary"
+              className="btn btn-primary my-3 mx-1"
               onClick={() => {
                 history.push(`/decks/${deck.id}/study`);
               }}
@@ -36,8 +36,7 @@ export default function DecksList({ allDecks }) {
           </div>
           <div className="col">
             <button
-              className="btn btn-danger"
-              style={{ justifyContent: "right" }}
+              className="btn btn-danger float-right m-3"
               onClick={() => {
                 const confirmDeleteDeck = window.confirm(
                   "Delete this deck? \n \nYou will not be able to recover it."
@@ -58,7 +57,7 @@ export default function DecksList({ allDecks }) {
   return (
     <div>
       <button
-        className="btn btn-secondary"
+        className="btn btn-secondary mb-2"
         onClick={() => history.push("/decks/new")}
       >
         Create Deck

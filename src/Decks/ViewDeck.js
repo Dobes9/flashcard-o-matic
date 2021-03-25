@@ -14,19 +14,25 @@ export default function ViewDeck({ settings, setSettings }) {
 
     async function loadDeck() {
       const deckFromAPI = await readDeck(deckId, signal);
-      const cardsFromAPI = await listCards(deckId, signal);
-      setSettings({
-        ...settings,
-        selectedDeck: deckFromAPI,
-        cardsInDeck: cardsFromAPI,
-      });
+      //const cardsFromAPI = await listCards(deckId, signal);
+      try {
+        setSettings({
+          ...settings,
+          selectedDeck: deckFromAPI,
+          cardsInDeck: deckFromAPI.cards,
+        });
+      } catch (error) {
+        if (error !== "AbortError") {
+          throw error;
+        }
+      }
     }
     loadDeck();
 
     return () => abortController.abort();
   }, [deckId]);
 
-  const {selectedDeck} = settings;
+  const { selectedDeck, cardsInDeck } = settings;
 
   return (
     <div>
@@ -45,19 +51,19 @@ export default function ViewDeck({ settings, setSettings }) {
       <div className="row">
         <div className="col">
           <button
-            className="btn btn-secondary"
+            className="btn btn-secondary mr-1"
             onClick={() => history.push(`/decks/${deckId}/edit`)}
           >
             Edit
           </button>
           <button
-            className="btn btn-primary"
+            className="btn btn-primary mx-1"
             onClick={() => history.push(`/decks/${deckId}/study`)}
           >
             Study
           </button>
           <button
-            className="btn btn-primary"
+            className="btn btn-primary mx-1"
             onClick={() => history.push(`/decks/${deckId}/cards/new`)}
           >
             Add Cards
@@ -65,7 +71,7 @@ export default function ViewDeck({ settings, setSettings }) {
         </div>
         <div className="col">
           <button
-            className="btn btn-danger"
+            className="btn btn-danger float-right"
             onClick={() => {
               const confirmDeleteDeck = window.confirm(
                 "Delete this deck? \n \nYou will not be able to recover it."
@@ -82,7 +88,7 @@ export default function ViewDeck({ settings, setSettings }) {
         </div>
       </div>
       <h3>Cards</h3>
-      <CardsList cardsInDeck={settings.cardsInDeck} />
+      <CardsList cardsInDeck={cardsInDeck} />
     </div>
   );
 }

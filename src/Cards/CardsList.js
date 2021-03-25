@@ -16,14 +16,15 @@ export default function CardsList({ cardsInDeck }) {
             </div>
             <div className="col">
               <p className="card-text">{card.back}</p>
+              <div className="float-right">
               <button
-                className="btn btn-secondary"
+                className="btn btn-secondary mx-1"
                 onClick={() => history.push(`${url}/cards/${card.id}/edit`)}
               >
                 Edit
               </button>
               <button
-                className="btn btn-danger"
+                className="btn btn-danger mx-1"
                 onClick={() => {
                   const confirmDeleteCard = window.confirm(
                     "Delete this card? \n \nYou will not be able to recover it."
@@ -36,11 +37,13 @@ export default function CardsList({ cardsInDeck }) {
               >
                 Delete
               </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
     );
   });
+  
   return <div>{listOfCards}</div>;
 }

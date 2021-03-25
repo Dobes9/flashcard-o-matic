@@ -34,7 +34,7 @@ export default function StudySession({ cardsInDeck }) {
             Flip
           </button>
           <button
-            className="btn btn-primary"
+            className="btn btn-primary mx-2"
             style={{ display: study.front ? "none" : "inline" }}
             onClick={() => {
               if (!cardsInDeck[study.count]) {

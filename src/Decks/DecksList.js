@@ -11,7 +11,7 @@ export default function DecksList({ allDecks }) {
     return (
       <div className="card" key={deck.id}>
         <div className="card-title">
-          <h4>{deck.name}</h4>
+          <h3 className="mx-3">{deck.name}</h3>
           <p className="float-right mx-3">{deck.cards.length} cards</p>
         </div>
         <div className="card-body">{deck.description}</div>
@@ -43,6 +43,7 @@ export default function DecksList({ allDecks }) {
                 );
                 if (confirmDeleteDeck) {
                   deleteDeck(deck.id, signal);
+                  history.go(0);
                 }
               }}
             >

@@ -1,18 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory, useRouteMatch } from "react-router-dom";
-import { createDeck, updateDeck } from "../utils/api/index";
+import { createDeck, updateDeck, readDeck } from "../utils/api/index";
 
-export default function DeckForm({ selectedDeck, handleCancel }) {
+export default function DeckForm({ handleCancel }) {
   const history = useHistory();
   const { path, params } = useRouteMatch();
   const { deckId } = params;
 
-  const initialFormData = selectedDeck;
+  const initialFormData = {
+    name: "",
+    description: "",
+  };
 
   const [formData, setFormData] = useState({ ...initialFormData });
 
   const abortController = new AbortController();
   const signal = abortController.signal;
+
+  useEffect(() => {
+    deckId
+      ? readDeck(deckId, signal).then(setFormData)
+      : setFormData({ ...initialFormData });
+  }, [deckId]);
 
   const handleFormChange = ({ target }) => {
     setFormData({
@@ -22,11 +31,9 @@ export default function DeckForm({ selectedDeck, handleCancel }) {
   };
 
   const handleSubmit = async () => {
-    path === "/decks/new" ? (
-      await createDeck(formData, signal)
-    ) : (
-      await updateDeck(formData, signal)
-    );
+    path === "/decks/new"
+      ? await createDeck(formData, signal)
+      : await updateDeck(formData, signal);
   };
 
   return (
@@ -34,12 +41,12 @@ export default function DeckForm({ selectedDeck, handleCancel }) {
       onSubmit={() => {
         if (path === "/decks/new") {
           handleSubmit();
-          history.push("/");
           setFormData({ ...initialFormData });
+          history.push("/").go(0);
         } else {
           handleSubmit();
-          history.push(`/decks/${deckId}`);
           setFormData({ ...initialFormData });
+          history.push(`/decks/${deckId}`).go(0);
         }
       }}
     >

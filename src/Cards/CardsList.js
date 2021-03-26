@@ -32,6 +32,7 @@ export default function CardsList({ cardsInDeck }) {
                   if (confirmDeleteCard) {
                     const abortController = new AbortController();
                     deleteCard(card.id, abortController.signal);
+                    history.go(0);
                   }
                 }}
               >

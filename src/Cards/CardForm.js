@@ -6,6 +6,7 @@ export default function CardForm() {
   const history = useHistory();
   const { path, params } = useRouteMatch();
   const { deckId, cardId } = params;
+
   const initialFormData = {
     front: "",
     back: "",
@@ -17,12 +18,9 @@ export default function CardForm() {
   const [formData, setFormData] = useState({});
 
   useEffect(() => {
-    if (cardId) {
-      readCard(cardId, signal).then(setFormData);
-    } else {
-      setFormData({ ...initialFormData });
-    }
-    return () => abortController.abort();
+    cardId
+      ? readCard(cardId, signal).then(setFormData)
+      : setFormData({ ...initialFormData });
   }, [cardId]);
 
   const handleFormChange = ({ target }) => {
@@ -41,7 +39,7 @@ export default function CardForm() {
         } else {
           updateCard(formData);
           setFormData({ ...initialFormData });
-          history.push(`/decks/${deckId}`);
+          history.push(`/decks/${deckId}`).go(0);
         }
       }}
     >
@@ -73,7 +71,7 @@ export default function CardForm() {
             className="btn btn-secondary"
             onClick={() => {
               setFormData({ ...initialFormData });
-              history.push(`/decks/${deckId}`);
+              history.push(`/decks/${deckId}`).go(0);
             }}
           >
             Done

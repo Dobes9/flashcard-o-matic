@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useRouteMatch, useHistory } from "react-router-dom";
 import DeckForm from "./DeckForm";
 
-export default function EditDeck({ selectedDeck }) {
+export default function EditDeck({ selectedDeck, setSelectedDeck }) {
   const history = useHistory();
   const { params } = useRouteMatch();
   const { deckId } = params;
@@ -27,14 +27,7 @@ export default function EditDeck({ selectedDeck }) {
         </ol>
       </nav>
       <h2>Edit Deck</h2>
-      <DeckForm
-        selectedDeck={{
-          id: selectedDeck.id,
-          name: selectedDeck.name,
-          description: selectedDeck.description,
-        }}
-        handleCancel={handleCancel}
-      />
+      <DeckForm handleCancel={handleCancel} />
     </div>
   );
 }

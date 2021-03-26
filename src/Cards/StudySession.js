@@ -33,27 +33,28 @@ export default function StudySession({ cardsInDeck }) {
           >
             Flip
           </button>
-          <button
-            className="btn btn-primary mx-2"
-            style={{ display: study.front ? "none" : "inline" }}
-            onClick={() => {
-              if (!cardsInDeck[study.count]) {
-                const confirmRestart = window.confirm(
-                  "Restart cards?\n\nClick 'cancel' to return to the home page"
-                );
-                confirmRestart
-                  ? setStudy({ ...initialStudyState })
-                  : history.push("/");
-              } else {
-                setStudy({
-                  count: study.count + 1,
-                  front: true,
-                });
-              }
-            }}
-          >
-            Next
-          </button>
+          {study.front ? null : (
+            <button
+              className="btn btn-primary mx-2"
+              onClick={() => {
+                if (!cardsInDeck[study.count]) {
+                  const confirmRestart = window.confirm(
+                    "Restart cards?\n\nClick 'cancel' to return to the home page."
+                  );
+                  confirmRestart
+                    ? setStudy({ ...initialStudyState })
+                    : history.push("/");
+                } else {
+                  setStudy({
+                    count: study.count + 1,
+                    front: true,
+                  });
+                }
+              }}
+            >
+              Next
+            </button>
+          )}
         </div>
       </div>
     </div>

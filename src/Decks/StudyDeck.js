@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { useRouteMatch, Link } from "react-router-dom";
-import { readDeck, listCards } from "../utils/api/index";
+import { readDeck } from "../utils/api/index";
 import NotEnoughCards from "../Cards/NotEnoughCards";
 import StudySession from "../Cards/StudySession";
 
-export default function StudyDeck({ settings, setSettings }) {
+export default function StudyDeck({ selectedDeck, setSelectedDeck }) {
   const { params } = useRouteMatch();
   const { deckId } = params;
 
@@ -14,19 +14,19 @@ export default function StudyDeck({ settings, setSettings }) {
 
     async function loadDeck() {
       const deckFromAPI = await readDeck(deckId, signal);
-      const cardsFromAPI = await listCards(deckId, signal);
-      setSettings({
-        ...settings,
-        selectedDeck: deckFromAPI,
-        cardsInDeck: cardsFromAPI,
-      });
+
+      try {
+        setSelectedDeck(deckFromAPI);
+      } catch (error) {
+        if (error !== "AbortError") {
+          throw error;
+        }
+      }
     }
     loadDeck();
 
     return () => abortController.abort();
   }, [deckId]);
-
-  const { selectedDeck, cardsInDeck } = settings;
 
   return (
     <div>
@@ -44,10 +44,10 @@ export default function StudyDeck({ settings, setSettings }) {
         </ol>
       </nav>
       <h2>{selectedDeck.name}: Study</h2>
-      {cardsInDeck.length < 3 ? (
-        <NotEnoughCards cardsInDeck={cardsInDeck} />
+      {selectedDeck.cards.length < 3 ? (
+        <NotEnoughCards cardsInDeck={selectedDeck.cards} />
       ) : (
-        <StudySession cardsInDeck={cardsInDeck} />
+        <StudySession cardsInDeck={selectedDeck.cards} />
       )}
     </div>
   );

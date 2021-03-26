@@ -21,10 +21,7 @@ export default function CreateDeck() {
         </ol>
       </nav>
       <h2>Create Deck</h2>
-      <DeckForm
-        selectedDeck={{ name: "", description: "" }}
-        handleCancel={handleCancel}
-      />
+      <DeckForm handleCancel={handleCancel} />
     </div>
   );
 }

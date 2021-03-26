@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { Link, useRouteMatch, useHistory } from "react-router-dom";
-import { readDeck, listCards, deleteDeck } from "../utils/api/index";
+import { readDeck, deleteDeck } from "../utils/api/index";
 import CardsList from "../Cards/CardsList";
 
-export default function ViewDeck({ settings, setSettings }) {
+export default function ViewDeck({ selectedDeck, setSelectedDeck }) {
   const history = useHistory();
   const { params } = useRouteMatch();
   const { deckId } = params;
@@ -14,13 +14,10 @@ export default function ViewDeck({ settings, setSettings }) {
 
     async function loadDeck() {
       const deckFromAPI = await readDeck(deckId, signal);
-      //const cardsFromAPI = await listCards(deckId, signal);
+      console.log("useEffect", deckFromAPI);
+
       try {
-        setSettings({
-          ...settings,
-          selectedDeck: deckFromAPI,
-          cardsInDeck: deckFromAPI.cards,
-        });
+        setSelectedDeck(deckFromAPI);
       } catch (error) {
         if (error !== "AbortError") {
           throw error;
@@ -31,8 +28,6 @@ export default function ViewDeck({ settings, setSettings }) {
 
     return () => abortController.abort();
   }, [deckId]);
-
-  const { selectedDeck, cardsInDeck } = settings;
 
   return (
     <div>
@@ -74,7 +69,7 @@ export default function ViewDeck({ settings, setSettings }) {
             className="btn btn-danger float-right"
             onClick={() => {
               const confirmDeleteDeck = window.confirm(
-                "Delete this deck? \n \nYou will not be able to recover it."
+                "Delete this deck?\n \nYou will not be able to recover it."
               );
               if (confirmDeleteDeck) {
                 const abortController = new AbortController();
@@ -88,7 +83,7 @@ export default function ViewDeck({ settings, setSettings }) {
         </div>
       </div>
       <h3>Cards</h3>
-      <CardsList cardsInDeck={cardsInDeck} />
+      <CardsList cardsInDeck={selectedDeck.cards} />
     </div>
   );
 }

@@ -12,12 +12,8 @@ import { listDecks } from "../utils/api/index";
 import { Switch, Route } from "react-router-dom";
 
 function Layout() {
-  const [settings, setSettings] = useState({
-    allDecks: [],
-    selectedDeck: {},
-    cardsInDeck: [],
-    selectedCard: {},
-  });
+  const [allDecks, setAllDecks] = useState([]);
+  const [selectedDeck, setSelectedDeck] = useState({ cards: [] });
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -25,10 +21,8 @@ function Layout() {
 
     async function loadDecks() {
       const decksFromAPI = await listDecks(signal);
-      setSettings({
-        ...settings,
-        allDecks: decksFromAPI,
-      });
+      console.log("load decks", decksFromAPI);
+      setAllDecks(decksFromAPI);
     }
     loadDecks();
 
@@ -41,25 +35,34 @@ function Layout() {
       <div className="container">
         <Switch>
           <Route exact path="/">
-            <DecksList allDecks={settings.allDecks} />
+            <DecksList allDecks={allDecks} />
           </Route>
           <Route path="/decks/new">
             <CreateDeck />
           </Route>
           <Route exact path="/decks/:deckId">
-            <ViewDeck settings={settings} setSettings={setSettings} />
+            <ViewDeck
+              selectedDeck={selectedDeck}
+              setSelectedDeck={setSelectedDeck}
+            />
           </Route>
           <Route path="/decks/:deckId/study">
-            <StudyDeck settings={settings} setSettings={setSettings} />
+            <StudyDeck
+              selectedDeck={selectedDeck}
+              setSelectedDeck={setSelectedDeck}
+            />
           </Route>
           <Route path="/decks/:deckId/edit">
-            <EditDeck selectedDeck={settings.selectedDeck} />
+            <EditDeck
+              selectedDeck={selectedDeck}
+              setSelectedDeck={setSelectedDeck}
+            />
           </Route>
           <Route path="/decks/:deckId/cards/new">
-            <AddCard selectedDeck={settings.selectedDeck} />
+            <AddCard selectedDeck={selectedDeck} />
           </Route>
           <Route path="/decks/:deckId/cards/:cardId/edit">
-            <EditCard settings={settings} setSettings={setSettings} />
+            <EditCard selectedDeck={selectedDeck} />
           </Route>
           <Route>
             <NotFound />

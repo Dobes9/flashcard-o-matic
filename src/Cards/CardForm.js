@@ -43,27 +43,37 @@ export default function CardForm() {
         }
       }}
     >
-      <div className="mb-3">
-        <label htmlFor="front">Front</label>
-        <textarea
-          id="front"
-          name="front"
-          value={formData.front}
-          onChange={handleFormChange}
-          placeholder="Front side of card"
-          rows="2"
-        />
+      <div className="row mb-3">
+        <div className="col-6 form-group">
+          <label className="form-label" htmlFor="front">
+            Front
+          </label>
+          <textarea
+            className="form-control"
+            id="front"
+            name="front"
+            value={formData.front}
+            onChange={handleFormChange}
+            placeholder="Front side of card"
+            rows="2"
+          />
+        </div>
       </div>
-      <div className="mb-3">
-        <label htmlFor="back">Back</label>
-        <textarea
-          id="back"
-          name="back"
-          value={formData.back}
-          onChange={handleFormChange}
-          placeholder="Back side of card"
-          rows="2"
-        />
+      <div className="row mb-3">
+        <div className="col-6 form-group">
+          <label className="form-label" htmlFor="back">
+            Back
+          </label>
+          <textarea
+            className="form-control"
+            id="back"
+            name="back"
+            value={formData.back}
+            onChange={handleFormChange}
+            placeholder="Back side of card"
+            rows="2"
+          />
+        </div>
       </div>
       {path === "/decks/:deckId/cards/new" ? (
         <div>

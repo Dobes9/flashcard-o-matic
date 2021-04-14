@@ -50,28 +50,36 @@ export default function DeckForm({ handleCancel }) {
         }
       }}
     >
-      <div className="mb-3">
-        <label htmlFor="name">Name</label>
-        <input
-          id="name"
-          name="name"
-          type="text"
-          value={formData.name}
-          onChange={handleFormChange}
-          placeholder="Deck Name"
-        />
+      <div className="row mb-3">
+        <div className="col-6 form-group">
+          <label className="form-label" htmlFor="name">
+            Name
+          </label>
+          <input
+            className="form-control"
+            id="name"
+            name="name"
+            type="text"
+            value={formData.name}
+            onChange={handleFormChange}
+            placeholder="Deck Name"
+          />
+        </div>
       </div>
-      <div className="mb-3">
-        <label htmlFor="description">
-          Description
+      <div className="row mb-3">
+        <div className="col-6 form-group">
+          <label className="form-label" htmlFor="description">
+            Description
+          </label>
           <textarea
+            className="form-control"
             id="description"
             name="description"
             value={formData.description}
             onChange={handleFormChange}
             placeholder="Brief description of the deck"
           />
-        </label>
+        </div>
       </div>
       <div>
         <button

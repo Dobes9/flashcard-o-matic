@@ -21,7 +21,6 @@ function Layout() {
 
     async function loadDecks() {
       const decksFromAPI = await listDecks(signal);
-      console.log("load decks", decksFromAPI);
       setAllDecks(decksFromAPI);
     }
     loadDecks();
@@ -59,7 +58,10 @@ function Layout() {
             />
           </Route>
           <Route path="/decks/:deckId/cards/new">
-            <AddCard selectedDeck={selectedDeck} />
+            <AddCard
+              selectedDeck={selectedDeck}
+              setSelectedDeck={setSelectedDeck}
+            />
           </Route>
           <Route path="/decks/:deckId/cards/:cardId/edit">
             <EditCard selectedDeck={selectedDeck} />

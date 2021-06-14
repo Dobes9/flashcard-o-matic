@@ -14,7 +14,6 @@ export default function ViewDeck({ selectedDeck, setSelectedDeck }) {
 
     async function loadDeck() {
       const deckFromAPI = await readDeck(deckId, signal);
-      console.log("useEffect", deckFromAPI);
 
       try {
         setSelectedDeck(deckFromAPI);

@@ -21,6 +21,7 @@ export default function CardForm() {
     cardId
       ? readCard(cardId, signal).then(setFormData)
       : setFormData({ ...initialFormData });
+    return () => abortController.abort();
   }, [cardId]);
 
   const handleFormChange = ({ target }) => {
@@ -34,12 +35,13 @@ export default function CardForm() {
     <form
       onSubmit={() => {
         if (path === `/decks/${deckId}/cards/new`) {
-          createCard(deckId, formData, signal);
-          setFormData({ ...initialFormData });
+          createCard(deckId, formData, signal).then(
+            setFormData({ ...initialFormData })
+          );
         } else {
-          updateCard(formData);
-          setFormData({ ...initialFormData });
-          history.push(`/decks/${deckId}`).go(0);
+          updateCard(formData).then(history.push(`/decks/${deckId}`));
+          //setFormData({ ...initialFormData });
+          //history.push(`/decks/${deckId}`).go(0);
         }
       }}
     >
